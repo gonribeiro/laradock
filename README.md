@@ -211,8 +211,14 @@ $ docker-compose build php-fpm
 <a id="erro_container_mariadb"></a><hr>
 
 - <b>Erro ao iniciar o container do MariaDB ou MySQL</b>
-    - Após algum tempo tive problemas para subir o container do MariaDB. A solução (já aplicada no MariaDB nesta customização) foi realizar a alteração abaixo no docker-compose.yml (O problema não era com o Laradock mas com o próprio container do mysql/mariadb)
-    - Fonte: https://github.com/laradock/laradock/issues/916 
+
+PROBLEMA
+
+Após algum tempo tive problemas para subir o container do MariaDB. 
+
+SOLUÇÃO 
+
+(já aplicada no MariaDB nesta customização) Modificar o trecho abaixo no docker-compose.yml (O problema não era com o Laradock mas com o próprio container do mysql/mariadb)
 
 ```
 mssql:
@@ -230,6 +236,8 @@ mssql:
     networks:
         - backend
 ```
+
+Fonte: https://github.com/laradock/laradock/issues/916 
 
 # Fontes
 
