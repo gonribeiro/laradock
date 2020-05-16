@@ -24,15 +24,7 @@
 $ git clone https://github.com/gonribeiro/laradock.git
 ```
 
-- Crie o ".env" a partir do "env-example" e modifique:
-
-```
-PHP_VERSION=7.3
-
-para
-
-PHP_VERSION=7.4
-```
+- Crie o ".env" a partir do "env-example"
 
 - No terminal (CMD, PowerShell ou outros), acesse a pasta do Laradock e inicie os containers
 
