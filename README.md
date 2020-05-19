@@ -32,7 +32,7 @@ $ git clone https://github.com/gonribeiro/laradock.git
 $ docker-compose up -d nginx mariadb redis workspace php-fpm
 ```
 
-Caso seja a primeira vez que o executa, o docker irá baixar as imagens de cada serviço. Isso poderá levar muito tempo.
+Caso seja a primeira vez que o executa, o docker irá baixar as imagens de cada serviço. Isso poderá levar muito tempo - Vá fazer um lanche enquanto isso ;)
 
 - OBS: No windows, caso apareça "deseja compartilhar volume?", clique em "sim" ou "compartilhar".
 - Troubleshooting: [Consulte a solução caso tenha problemas para executar os containers com conta do ADDS](#erro_iniciar_container_volume_compartilhado)
@@ -47,7 +47,11 @@ Pelo workspace você executa comandos artisan, composer, gulp, etc durante o seu
 $ docker-compose exec workspace bash
 ```
 
-Dentro do workspace, crie ou clone seus projetos Laravel (ou qualquer outro) normalmente.
+Dentro do workspace, utilize o composer para criar seus projetos Laravel.
+
+```
+$ composer create-project laravel/laravel seu_projeto --prefer-dist 
+```
 
 O projeto é criado na mesma pasta onde encontra-se a pasta do laradock <mark>(não dentro da pasta do laradock)</mark>, Exemplo:
 
@@ -58,52 +62,14 @@ O projeto é criado na mesma pasta onde encontra-se a pasta do laradock <mark>(n
 
 # Acessando um ou vários projetos Laravel (ou outro web qualquer)
 
-- Crie um novo arquivo "conf" na pasta /laradock/nginx/sites/seu_projeto.conf e insira: (modificando sempre "seu_projeto" para o nome e pasta do seu projeto - atenção no código abaixo também deve modificar onde está escrito "seu_projeto")
+- Na pasta "laradock/nginx/sites/" crie "seu_projeto.conf" a partir do "laravel.conf.example" modificando o trecho "seu_projeto" para o nome e pasta do seu projeto
 
 ```
-server {
+...
 
-    listen 80;
-    # listen [::]:80;
-
-    # For https
-    listen 443 ssl;
-    # listen [::]:443 ssl ipv6only=on;
-    ssl_certificate /etc/nginx/ssl/default.crt;
-    ssl_certificate_key /etc/nginx/ssl/default.key;
-
-    server_name seu_projeto.local;
-    root /var/www/seu_projeto;
-    index index.php index.html index.htm;
-
-    location / {
-         try_files $uri $uri/ /index.php$is_args$args;
-    }
-
-    location ~ \.php$ {
-        try_files $uri /index.php =404;
-        fastcgi_pass php-upstream;
-        fastcgi_index index.php;
-        fastcgi_buffers 16 16k;
-        fastcgi_buffer_size 32k;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        #fixes timeouts
-        fastcgi_read_timeout 600;
-        include fastcgi_params;
-    }
-
-    location ~ /\.ht {
-        deny all;
-    }
-
-    location /.well-known/acme-challenge/ {
-        root /var/www/letsencrypt/;
-        log_not_found off;
-    }
-
-    error_log /var/log/nginx/laravel_error.log;
-    access_log /var/log/nginx/laravel_access.log;
-}
+server_name seu_projeto.local;
+root /var/www/seu_projeto/public;
+...
 ```
 
 - No terminal, dentro da pasta do Laradock, reincie os containers
@@ -112,14 +78,14 @@ server {
 $ docker-compose restart
 ```
 
-- No windows, aponte os projetos no arquivo hosts:
+- No windows, aponte os seus projetos no arquivo "hosts".
 
 Em “C:/Windows/System32/drivers/etc/hosts”, insira: 
 
 ```
+...
 127.0.0.1 seu_projeto.local
 127.0.0.1 seu_projeto2.local
-...
 ```
 
 - Acesse seu projeto pelo navegador: 
@@ -138,10 +104,10 @@ https://seu_projeto.local
 Recebeu algum erro e deseja visualizar os logs? Use:
 
 ```
-docker-compose logs [options] [SERVICE…]
+# docker-compose logs [options] [SERVICE…]
 
-Exemplo:
-docker-compose logs nginx
+# Exemplo:
+$ docker-compose logs nginx
 ```
 
 Os logs estarão disponíveis na pasta: laradock\logs\

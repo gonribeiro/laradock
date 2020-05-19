@@ -1,16 +1,16 @@
 server {
 
     listen 80;
-    listen [::]:80;
+    # listen [::]:80;
 
     # For https
-    # listen 443 ssl;
+    listen 443 ssl;
     # listen [::]:443 ssl ipv6only=on;
-    # ssl_certificate /etc/nginx/ssl/default.crt;
-    # ssl_certificate_key /etc/nginx/ssl/default.key;
+    ssl_certificate /etc/nginx/ssl/default.crt;
+    ssl_certificate_key /etc/nginx/ssl/default.key;
 
-    server_name laravel.test;
-    root /var/www/laravel/public;
+    server_name seu_projeto.local;
+    root /var/www/seu_projeto/public;
     index index.php index.html index.htm;
 
     location / {
