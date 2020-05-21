@@ -12,8 +12,7 @@
     - allow_url_include = On
 - Mariadb
     - [Solucionado erro do container mariadb](#erro_container_mariadb)
-- http:// localhost (apenas um capricho)
-    - Modificado nginx/sites/default.conf para apontar nginx/public/ quando acessar http://localhost. Página exibe versão do PHP utilizado.
+- Nginx e Apache com ssl.
 
 # Começando Laradock e iniciando os containers
 
@@ -26,7 +25,11 @@ $ git clone https://github.com/gonribeiro/laradock.git
 
 - Crie o ".env" a partir do "env-example"
 
-- No terminal (CMD, PowerShell ou outros), acesse a pasta do Laradock e inicie os containers
+- No terminal (CMD, PowerShell ou outros), acesse a pasta do Laradock e inicie os containers 
+
+- OBS: Aqui você pode subir apenas os containers que precisa. Ex.: Inicie nginx + workspace + php-fpm para ter um servidor php e um ambiente de trabalho. Inicie mariadb e redis apenas se precisar destes serviços. [O laradock possui outros serviços configurados prontos para serem utilizados. Consulte a documentação para saber mais](https://laradock.io/documentation/).
+
+- OBS 2: Troque "nginx" por "apache2" caso queira utilizar o apache.
 
 ```
 $ docker-compose up -d nginx mariadb redis workspace php-fpm
@@ -53,7 +56,7 @@ Dentro do workspace, utilize o composer para criar seus projetos Laravel.
 $ composer create-project laravel/laravel seu_projeto --prefer-dist 
 ```
 
-O projeto é criado na mesma pasta onde encontra-se a pasta do laradock <mark>(não dentro da pasta do laradock)</mark>, Exemplo:
+O projeto é criado na mesma pasta onde encontra-se a pasta do laradock (não dentro da pasta do laradock), Exemplo:
 
 - Desktop\
     - Laradock\
@@ -62,13 +65,29 @@ O projeto é criado na mesma pasta onde encontra-se a pasta do laradock <mark>(n
 
 # Acessando um ou vários projetos Laravel (ou outro web qualquer)
 
-- Na pasta "laradock/nginx/sites/" crie "seu_projeto.conf" a partir do "laravel.conf.example" modificando o trecho "seu_projeto" para o nome e pasta do seu projeto
+
+- Se estiver usando Nginx:
+    - Na pasta "laradock/nginx/sites/" crie "seu_projeto.conf" a partir de "laravel.conf.example" modificando o trecho "seu_projeto" para o nome e pasta do seu projeto
 
 ```
 ...
 
 server_name seu_projeto.local;
 root /var/www/seu_projeto/public;
+...
+```
+
+- Se estiver usando Apache:
+    - Na pasta "laradock/apache2/sites/" crie "seu_projeto.conf" a partir de "sample.conf.example" modificando o trecho "seu_projeto" para o nome e pasta do seu projeto
+
+```
+...
+ServerName seu_projeto.local
+DocumentRoot /var/www/seu_projeto/public/
+
+...
+
+<Directory "/var/www/seu_projeto/public/">
 ...
 ```
 
@@ -92,10 +111,17 @@ Em “C:/Windows/System32/drivers/etc/hosts”, insira:
 
 https://seu_projeto.local
 
-- <mark>Repita os mesmos passos acima para cada novo projeto</mark>
+- Repita os mesmos passos acima para cada novo projeto
 - OBS 1: Não use “.dev” como extensão para seu ambiente de desenvolvimento ou produção, é uma recomendação do laradock por problema do Google Chrome.
 - OBS 2: Para se conectar ao MariaDB, use o usuário e senha "root".
-- <mark>Troubleshooting:</mark> [Consulte a solução caso o ocorra o problema "MySQL connection refused"](#erro_connection_refused_db)
+- Troubleshooting: [Consulte a solução caso o ocorra o problema "MySQL connection refused"](#erro_connection_refused_db)
+
+# Happy Coding ;)
+
+Para mais informações sobre o Laradock ou outras possibilidades: https://laradock.io/
+
+Dica: Se estiver usando vscode, instale a extensão [Docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker) - [Mais informações sobre a extensão](https://code.visualstudio.com/docs/containers/overview)
+
 
 # Troubleshooting
 
@@ -199,9 +225,6 @@ Fonte: https://github.com/laradock/laradock/issues/916
 
 # Fontes
 
-- Laradock
-    - https://laradock.io/introduction/
-    - https://blog.especializati.com.br/utilizando-o-laradock/ 
-    - https://byteslivres.com.br/blog/utilizando-o-docker-para-seu-projetos-laravel-com-laradock/ 
-- Nginx SSL
-    - https://zeropointdevelopment.com/how-to-get-https-working-in-windows-10-localhost-dev-environment/
+- Laradock: https://laradock.io
+- Nginx SSL: https://zeropointdevelopment.com/how-to-get-https-working-in-windows-10-localhost-dev-environment/
+- Apache SSL: https://github.com/laradock/laradock/issues/1316

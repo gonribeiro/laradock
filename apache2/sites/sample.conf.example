@@ -1,9 +1,13 @@
-<VirtualHost *:80>
-  ServerName sample.test
-  DocumentRoot /var/www/sample/public/
+<VirtualHost *:443>
+  ServerName seu_projeto.local
+  DocumentRoot /var/www/seu_projeto/public/
   Options Indexes FollowSymLinks
 
-  <Directory "/var/www/sample/public/">
+  SSLEngine on
+  SSLCertificateFile /etc/apache2/ssl/MY_CERT_NAME.crt
+  SSLCertificateKeyFile /etc/apache2/ssl/MY_CERT_NAME.key
+
+  <Directory "/var/www/seu_projeto/public/">
     AllowOverride All
     <IfVersion < 2.4>
       Allow from all

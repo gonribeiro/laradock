@@ -19,6 +19,14 @@ WORKDIR /var/www/
 
 COPY vhost.conf /etc/apache2/sites-enabled/vhost.conf
 
+RUN mkdir /etc/apache2/ssl 2> /dev/null
+
+RUN openssl genrsa -out "/etc/apache2/ssl/MY_CERT_NAME.key" 2048 \
+    && openssl req -new -key "/etc/apache2/ssl/MY_CERT_NAME.key" -out "/etc/apache2/ssl/MY_CERT_NAME.csr" -subj "/CN=wptest.local/O=LGS/C=UK" \
+    && openssl x509 -req -days 365 -in "/etc/apache2/ssl/MY_CERT_NAME.csr" -signkey "/etc/apache2/ssl/MY_CERT_NAME.key" -out "/etc/apache2/ssl/MY_CERT_NAME.crt"
+
+RUN service apache2 restart
+
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 
 CMD ["supervisord"]
