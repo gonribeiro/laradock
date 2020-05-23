@@ -10,9 +10,8 @@
     - php_openssl
     - php_pdo_mysql
     - allow_url_include = On
-- Mariadb
-    - [Solucionado erro do container mariadb](#erro_container_mariadb)
-- Nginx e Apache com ssl.
+- Mariadb - [Solucionado erro do container mariadb](#erro_container_mariadb)
+- Nginx e Apache usam https
 
 # Começando Laradock e iniciando os containers
 
@@ -33,6 +32,9 @@ $ git clone https://github.com/gonribeiro/laradock.git
 
 ```
 $ docker-compose up -d nginx mariadb redis workspace php-fpm
+
+# OBS: Quando quiser encerrar os containers, use:
+$ docker-compose stop 
 ```
 
 Caso seja a primeira vez que o executa, o docker irá baixar as imagens de cada serviço. Isso poderá levar muito tempo - Vá fazer um lanche enquanto isso ;)
@@ -44,7 +46,7 @@ Caso seja a primeira vez que o executa, o docker irá baixar as imagens de cada 
 
 - No terminal, ainda dentro da pasta do Laradock, execute o workspace
 
-Pelo workspace você executa comandos artisan, composer, gulp, etc durante o seu desenvolvimento... Ou seja, aqui será seu local de desenvolvimento.
+O workspace será seu ambiente de desenvolvimento. Nele você executa comandos artisan, composer, gulp, etc (uma vez que o php não estará registrado nas variáveis de ambiente do seu sistema).
 
 ```
 $ docker-compose exec workspace bash
@@ -70,25 +72,37 @@ O projeto é criado na mesma pasta onde encontra-se a pasta do laradock (não de
     - Na pasta "laradock/nginx/sites/" crie "seu_projeto.conf" a partir de "laravel.conf.example" modificando o trecho "seu_projeto" para o nome e pasta do seu projeto
 
 ```
-...
+server {
+    # Redirect for https
+    ...
+    server_name    seu_projeto.local;
+    ...
+}
 
-server_name seu_projeto.local;
-root /var/www/seu_projeto/public;
-...
+server {
+    # For https
+    ...
+    server_name seu_projeto.local;
+    root /var/www/seu_projeto/public;
+    ...
+}
 ```
 
 - Se estiver usando Apache:
     - Na pasta "laradock/apache2/sites/" crie "seu_projeto.conf" a partir de "sample.conf.example" modificando o trecho "seu_projeto" para o nome e pasta do seu projeto
 
 ```
-...
-ServerName seu_projeto.local
-DocumentRoot /var/www/seu_projeto/public/
+<VirtualHost *:80>
+   ServerName seu_projeto.local
+   Redirect / https://seu_projeto.local
+   ...
 
-...
-
-<Directory "/var/www/seu_projeto/public/">
-...
+<VirtualHost *:443>
+   ServerName seu_projeto.local
+   DocumentRoot /var/www/seu_projeto/public/
+   ...
+   <Directory "/var/www/seu_projeto/public/">
+   ...
 ```
 
 - No terminal, dentro da pasta do Laradock, reincie os containers
@@ -107,7 +121,7 @@ Em “C:/Windows/System32/drivers/etc/hosts”, insira:
 127.0.0.1 seu_projeto2.local
 ```
 
-- Acesse seu projeto pelo navegador: 
+- Acesse seu projeto pelo navegador utilizando "https": 
 
 https://seu_projeto.local
 

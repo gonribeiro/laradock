@@ -1,8 +1,11 @@
 server {
+    # Redirect for https
+    listen         80;
+    server_name    seu_projeto.local;
+    return         301 https://$host$request_uri;
+}
 
-    listen 80;
-    # listen [::]:80;
-
+server {
     # For https
     listen 443 ssl;
     # listen [::]:443 ssl ipv6only=on;

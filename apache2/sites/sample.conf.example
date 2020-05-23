@@ -1,3 +1,8 @@
+<VirtualHost *:80>
+   ServerName seu_projeto.local
+   Redirect / https://seu_projeto.local
+</VirtualHost>
+
 <VirtualHost *:443>
   ServerName seu_projeto.local
   DocumentRoot /var/www/seu_projeto/public/
