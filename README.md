@@ -1,3 +1,5 @@
+Resumidamente, o laradock é um ambiente de desenvolvimento PHP completo para o docker, contendo imagens docker pré-configuradas. Inicialmente o projeto foi focado em rodar os projetos Laravel , mas veio evoluindo e agora começou a suportar outros projetos PHP como Symfony, CodeIgniter, WordPress, Drupal e outros.
+
 # Pequenas customizações 
 
 - PHP - Versão e extensões Habilitadas
@@ -22,7 +24,7 @@
 $ git clone https://github.com/gonribeiro/laradock.git
 ```
 
-- Crie o ".env" a partir do "env-example"
+- Na pasta clonada localize o arquivo "env-example". Faça uma cópia dele modificando seu nome para ".env".
 
 - No terminal (CMD, PowerShell ou outros), acesse a pasta do Laradock e inicie os containers 
 
@@ -32,12 +34,15 @@ $ git clone https://github.com/gonribeiro/laradock.git
 
 ```
 $ docker-compose up -d nginx mariadb redis workspace php-fpm
+```
 
-# OBS: Quando quiser encerrar os containers, use:
+- OBS 3: Quando quiser encerrar os containers, use:
+
+```
 $ docker-compose stop 
 ```
 
-Caso seja a primeira vez que o executa, o docker irá baixar as imagens de cada serviço. Isso poderá levar muito tempo - Vá fazer um lanche enquanto isso ;)
+Caso seja a primeira vez que o executa, o docker irá baixar e configurar as imagens de cada serviço. Isso poderá levar muito tempo (ainda mais se o seu disco não for um SSD por exemplo) - Vá fazer um lanche enquanto isso ;)
 
 - OBS: No windows, caso apareça "deseja compartilhar volume?", clique em "sim" ou "compartilhar".
 - Troubleshooting: [Consulte a solução caso tenha problemas para executar os containers com conta do ADDS](#erro_iniciar_container_volume_compartilhado)
@@ -105,7 +110,7 @@ server {
    ...
 ```
 
-- No terminal, dentro da pasta do Laradock, reincie os containers
+- No terminal, dentro da pasta do Laradock, reinicie os containers
 
 ```
 $ docker-compose restart
