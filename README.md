@@ -1,4 +1,6 @@
-Resumidamente, o laradock é um ambiente de desenvolvimento PHP completo para o docker, contendo imagens docker pré-configuradas. Inicialmente o projeto foi focado em rodar os projetos Laravel , mas veio evoluindo e agora começou a suportar outros projetos PHP como Symfony, CodeIgniter, WordPress, Drupal e outros.
+Tenha tudo o que você precisa em mãos facilmente, mas use apenas "o que e quando desejar". 
+
+Resumidamente, o Laradock é um ambiente de desenvolvimento PHP completo para o docker, contendo imagens docker pré-configuradas. Inicialmente o projeto foi focado em rodar os projetos Laravel, mas veio evoluindo e agora começou a suportar outros projetos PHP como Symfony, CodeIgniter, WordPress, Drupal e outros.
 
 # Pequenas customizações 
 
@@ -30,7 +32,7 @@ $ git clone https://github.com/gonribeiro/laradock.git
 
 - OBS: Aqui você pode subir apenas os containers que precisa. Ex.: Inicie nginx + workspace + php-fpm para ter um servidor php e um ambiente de trabalho. Inicie mariadb e redis apenas se precisar deles. [Consulte a documentação do laradock para saber de outros serviços prontos para serem utilizados](https://laradock.io/documentation/). 
 
-- OBS 2: Caso seja a primeira vez que o executa, o docker irá baixar e configurar as imagens de cada serviço. Isso poderá levar muito tempo - O grande responsável por esta demora é o "workspace". Ele será o seu ambiente de desenvolvimento. Nele você executa comandos artisan, composer, gulp, node, yarn etc (assim você não precisará ter esses programas instalados no seu PC, pode usar pelo workspace). Isso faz que ele instale tudo isso no container para você. Caso não queira alguma dessas depenências, acesse o ".env" que criou anteriormente e procure por: ``` WORKSPACE_ ``` e coloque ``` false ``` para tudo o que lhe for indesejável (informe "false" apenas para o que conhece, para não desconfigurar o ambiente indevidamente) - Lembrando que se mais tarde quiser esses programas, deverá marcar "true" e recompilar o container do "workspace" ou instalar cada programa no seu computador.
+- OBS 2: Caso seja a primeira vez que o executa, o docker irá baixar e configurar as imagens de cada serviço. Isso poderá levar muito tempo - O maior responsável por este "muito tempo" é o "workspace". Ele será o seu ambiente de desenvolvimento. Nele você executa comandos artisan, composer, gulp, node, yarn etc (assim você não precisará ter esses programas instalados no seu PC, pode usar pelo workspace). Isso faz que ele instale tudo isso no container para você. Caso não queira alguma dessas dependências, acesse o ".env" que você criou anteriormente e procure por: ``` WORKSPACE_ ``` e coloque ``` false ``` para tudo o que lhe for indesejável (informe "false" apenas para o que conhece, para não desconfigurar o ambiente indevidamente) - Lembrando que se mais tarde quiser esses programas, deverá marcar "true" e recompilar o container do "workspace" ou instalar cada programa no seu computador.
 
 ```
 # Troque "nginx" por "apache2" caso queira utilizar o apache.
