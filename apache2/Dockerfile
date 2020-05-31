@@ -27,6 +27,8 @@ RUN openssl genrsa -out "/etc/apache2/ssl/MY_CERT_NAME.key" 2048 \
 
 RUN service apache2 restart
 
+RUN a2enmod include.load
+
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 
 CMD ["supervisord"]

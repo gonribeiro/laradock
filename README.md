@@ -28,30 +28,23 @@ $ git clone https://github.com/gonribeiro/laradock.git
 
 - No terminal (CMD, PowerShell ou outros), acesse a pasta do Laradock e inicie os containers 
 
-- OBS: Aqui você pode subir apenas os containers que precisa. Ex.: Inicie nginx + workspace + php-fpm para ter um servidor php e um ambiente de trabalho. Inicie mariadb e redis apenas se precisar destes serviços. [O laradock possui outros serviços configurados prontos para serem utilizados. Consulte a documentação para saber mais](https://laradock.io/documentation/).
+- OBS: Aqui você pode subir apenas os containers que precisa. Ex.: Inicie nginx + workspace + php-fpm para ter um servidor php e um ambiente de trabalho. Inicie mariadb e redis apenas se precisar deles. [Consulte a documentação do laradock para saber de outros serviços prontos para serem utilizados](https://laradock.io/documentation/). 
 
-- OBS 2: Troque "nginx" por "apache2" caso queira utilizar o apache.
+- OBS 2: Caso seja a primeira vez que o executa, o docker irá baixar e configurar as imagens de cada serviço. Isso poderá levar muito tempo - O grande responsável por esta demora é o "workspace". Ele será o seu ambiente de desenvolvimento. Nele você executa comandos artisan, composer, gulp, node, yarn etc (assim você não precisará ter esses programas instalados no seu PC, pode usar pelo workspace). Isso faz que ele instale tudo isso no container para você. Caso não queira alguma dessas depenências, acesse o ".env" que criou anteriormente e procure por: ``` WORKSPACE_ ``` e coloque ``` false ``` para tudo o que lhe for indesejável (informe "false" apenas para o que conhece, para não desconfigurar o ambiente indevidamente) - Lembrando que se mais tarde quiser esses programas, deverá marcar "true" e recompilar o container do "workspace" ou instalar cada programa no seu computador.
 
 ```
+# Troque "nginx" por "apache2" caso queira utilizar o apache.
+
 $ docker-compose up -d nginx mariadb redis workspace php-fpm
 ```
 
-- OBS 3: Quando quiser encerrar os containers, use:
+- OBS3: No windows, caso apareça "deseja compartilhar volume?", clique em "sim" ou "compartilhar".
 
-```
-$ docker-compose stop 
-```
-
-Caso seja a primeira vez que o executa, o docker irá baixar e configurar as imagens de cada serviço. Isso poderá levar muito tempo (ainda mais se o seu disco não for um SSD por exemplo) - Vá fazer um lanche enquanto isso ;)
-
-- OBS: No windows, caso apareça "deseja compartilhar volume?", clique em "sim" ou "compartilhar".
 - Troubleshooting: [Consulte a solução caso tenha problemas para executar os containers com conta do ADDS](#erro_iniciar_container_volume_compartilhado)
 
 # Criando um projeto Laravel no Laradock
 
 - No terminal, ainda dentro da pasta do Laradock, execute o workspace
-
-O workspace será seu ambiente de desenvolvimento. Nele você executa comandos artisan, composer, gulp, etc (uma vez que o php não estará registrado nas variáveis de ambiente do seu sistema).
 
 ```
 $ docker-compose exec workspace bash
@@ -118,7 +111,7 @@ $ docker-compose restart
 
 - No windows, aponte os seus projetos no arquivo "hosts".
 
-Em “C:/Windows/System32/drivers/etc/hosts”, insira: 
+Em “C:\Windows\System32\drivers\etc”, insira: 
 
 ```
 ...
@@ -126,14 +119,12 @@ Em “C:/Windows/System32/drivers/etc/hosts”, insira:
 127.0.0.1 seu_projeto2.local
 ```
 
-- Acesse seu projeto pelo navegador utilizando "https": 
-
+- Acesse seu projeto pelo navegador: 
 https://seu_projeto.local
 
 - Repita os mesmos passos acima para cada novo projeto
 - OBS 1: Não use “.dev” como extensão para seu ambiente de desenvolvimento ou produção, é uma recomendação do laradock por problema do Google Chrome.
-- OBS 2: Para se conectar ao MariaDB, use o usuário e senha "root".
-- Troubleshooting: [Consulte a solução caso o ocorra o problema "MySQL connection refused"](#erro_connection_refused_db)
+- OBS 2: Para se conectar ao MariaDB, use o usuário e senha "root". [Consulte a solução caso o ocorra o problema "MySQL connection refused"](#erro_connection_refused_db)
 
 # Happy Coding ;)
 
