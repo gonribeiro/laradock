@@ -137,6 +137,12 @@ Dica: Se estiver usando vscode, instale a extensão [Docker](https://marketplace
 
 # Troubleshooting
 
+- <b>Como impedir que o WSL2 monopolize toda a sua memória RAM com o Docker</b>
+
+Consulte: https://medium.com/@lewwybogus/how-to-stop-wsl2-from-hogging-all-your-ram-with-docker-d7846b9c5b37 para melhorar o desempenho do seu Docker no Windows.
+
+<hr>
+
 - <b>Visualizando logs</b>
 
 Recebeu algum erro e deseja visualizar os logs? Use:
